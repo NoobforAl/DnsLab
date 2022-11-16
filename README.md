@@ -13,7 +13,7 @@
 
 بعد از نصب این کامند را اجرا کنید.
 
-> go install github.com/NoobforAl/DnsLab
+> go install github.com/NoobforAl/DnsLab@latest
 
 بعد از نصب Dnslab
 چک کنید که به درستی ابزار نصب شده است.
