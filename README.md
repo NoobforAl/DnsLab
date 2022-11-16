@@ -66,7 +66,7 @@ Enter dns: developer.google.com
 ```bash
 $ dnslab -uip -t your token
 
- Ipv4:  5.53.56.41
+ Ipv4: your ip
  Ipv6:
  IP updated:  true
  IP updated:  true
