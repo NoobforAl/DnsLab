@@ -1,10 +1,11 @@
 package main
 
 import (
-	"DnsLab/core"
 	"flag"
 	"fmt"
 	"time"
+
+	"github.com/NoobforAl/DnsLab/core"
 )
 
 var app core.BaseConf
