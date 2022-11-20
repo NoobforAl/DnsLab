@@ -30,17 +30,15 @@ func main() {
 	flag.Parse()
 
 	app.Token = *token
-	fmt.Println(" Ipv4: ", app.Ip)
-	fmt.Println(" Ipv6: ", app.Ipv6)
+
+	if len(flag.Args()) == 0 {
+		fmt.Println(" Ipv4: ", app.Ip)
+		fmt.Println(" Ipv6: ", app.Ipv6)
+	}
 
 	if app.Token != "" {
 		v, err := app.UpdateIp()
 		app.Show(" IP updated: ", v, err)
-	}
-
-	if *showIP {
-		fmt.Println(" Ipv4: ", app.Ip)
-		fmt.Println(" Ipv6: ", app.Ipv6)
 	}
 
 	if *pingIP {
@@ -66,6 +64,11 @@ func main() {
 	if *updateIP {
 		v, err := app.UpdateIp()
 		app.Show(" IP updated: ", v, err)
+	}
+
+	if *showIP {
+		fmt.Println(" Ipv4: ", app.Ip)
+		fmt.Println(" Ipv6: ", app.Ipv6)
 	}
 
 	if *upApp {
