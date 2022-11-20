@@ -35,7 +35,11 @@ func (c *BaseConf) Show(text, v any, err error) {
 func (c *BaseConf) setUpIp(IPv4, IPv6 string, port uint16) {
 	c.Ip = IPv4
 	c.Ipv6 = IPv6
+
 	c.Port = port
+	if port == 0 {
+		c.Port = 80
+	}
 }
 
 func (c *BaseConf) setUpEnterIp(getPort bool, text string) {
