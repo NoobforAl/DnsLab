@@ -13,10 +13,16 @@
 
 بعد از نصب این کامند را اجرا کنید.
 
+<div dir="ltr">
+
 > go install github.com/NoobforAl/DnsLab@latest
+
+</div>
 
 بعد از نصب Dnslab
 چک کنید که به درستی ابزار نصب شده است.
+
+<div dir="ltr">
 
 ```bash
 $ dnslab
@@ -24,6 +30,8 @@ $ dnslab
  Ipv4:  your ip
  Ipv6:
 ```
+
+</div>
 
 در صورتی که تمایلی به نصب Go
 ندارید می توانید باینری فایل را برای خود دانلود کنید.
@@ -33,6 +41,8 @@ $ dnslab
 و ممکن است برای برخی از معماری پردازنده ها درست کار نکند.
 
 # راهنمای CLI
+
+<div dir="ltr">
 
 | کامند |                                         توضیحات                                          |
 | ----- | :--------------------------------------------------------------------------------------: |
@@ -47,29 +57,34 @@ $ dnslab
 | -uip  |                   اپدیت کردن ای پی به شرطی که توکنی را وارد کرده باشید                   |
 | -up   | چک کردن مداوم ای پی بسته به زمان تنظیم شده به صورت پیش فرض بر هر 3 ساعت یک بار تنظیم است |
 
+</div>
+
 # Example
 
 دیدن ip با DNS
 
+<div dir="ltr">
+
 ```bash
 $ dnslab -dl
 
- Ipv4:  your ip
- Ipv6:
 Enter dns: developer.google.com
  Ip:  172.217.169.110
 
 ```
 
+</div>
+
 آپدیت کردن IP
+
+<div dir="ltr">
 
 ```bash
 $ dnslab -uip -t your token
-
- Ipv4: your ip
- Ipv6:
  IP updated:  true
  IP updated:  true
 ```
+
+</div>
 
 </div>
