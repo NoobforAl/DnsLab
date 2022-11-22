@@ -32,10 +32,7 @@ func main() {
 
 	app.Token = *token
 
-	if len(os.Args) == 1 {
-		fmt.Println(" Ipv4: ", app.Ip)
-		fmt.Println(" Ipv6: ", app.Ipv6)
-		time.Sleep(10 * time.Second)
+	if len(os.Args) <= 1 {
 		flag.PrintDefaults()
 		return
 	}
@@ -82,5 +79,4 @@ func main() {
 			time.Sleep(time.Duration(*timeUpdate) * time.Hour)
 		}
 	}
-	time.Sleep(10 * time.Second)
 }
