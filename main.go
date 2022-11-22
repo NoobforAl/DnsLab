@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/NoobforAl/DnsLab/core"
@@ -31,9 +32,12 @@ func main() {
 
 	app.Token = *token
 
-	if len(flag.Args()) == 0 {
+	if len(os.Args) == 1 {
 		fmt.Println(" Ipv4: ", app.Ip)
 		fmt.Println(" Ipv6: ", app.Ipv6)
+		time.Sleep(10 * time.Second)
+		flag.PrintDefaults()
+		return
 	}
 
 	if app.Token != "" {
