@@ -9,12 +9,13 @@ import (
 	"github.com/NoobforAl/DnsLab/core"
 )
 
-var app core.BaseConf
+var app core.BaseConf = core.BaseConf{}
 
 func init() {
-	app = core.BaseConf{}
-	if err := app.CheckIP(); err != nil {
-		fmt.Println(err.Error())
+	if len(os.Args) >= 1 {
+		if err := app.CheckIP(); err != nil {
+			fmt.Println(err.Error())
+		}
 	}
 }
 
