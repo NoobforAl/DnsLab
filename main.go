@@ -2,11 +2,11 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
 	"time"
 
 	"github.com/NoobforAl/DnsLab/core"
+	log "github.com/NoobforAl/DnsLab/log"
 )
 
 var app core.BaseConf = core.BaseConf{}
@@ -14,7 +14,7 @@ var app core.BaseConf = core.BaseConf{}
 func init() {
 	if len(os.Args) >= 1 {
 		if err := app.CheckIP(); err != nil {
-			fmt.Println(err.Error())
+			log.WarnLog.Panicln(err.Error())
 		}
 	}
 }
@@ -40,43 +40,43 @@ func main() {
 
 	if app.Token != "" {
 		v, err := app.UpdateIp()
-		app.Show(" IP updated: ", v, err)
+		app.Show("IP updated: ", v, err)
 	}
 
 	if *pingIP {
 		v, err := app.Ping()
-		app.Show(" IP is up(PING): ", v, err)
+		app.Show("IP is up(PING): ", v, err)
 	}
 
 	if *openPort {
 		v, err := app.OpenPort()
-		app.Show(" Port is opne: ", v, err)
+		app.Show("Port is open: ", v, err)
 	}
 
 	if *dnsLookup {
 		v, err := app.DnsLookup()
-		app.Show(" Ip: ", v, err)
+		app.Show("Ip: ", v, err)
 	}
 
 	if *reverseLookup {
 		v, err := app.ReverseLookup()
-		app.Show(" DNS: ", v, err)
+		app.Show("DNS: ", v, err)
 	}
 
 	if *updateIP {
 		v, err := app.UpdateIp()
-		app.Show(" IP updated: ", v, err)
+		app.Show("IP updated: ", v, err)
 	}
 
 	if *showIP {
-		fmt.Println(" Ipv4: ", app.Ip)
-		fmt.Println(" Ipv6: ", app.Ipv6)
+		log.InfoLog.Println("Ipv4: ", app.Ip)
+		log.InfoLog.Println("Ipv6: ", app.Ipv6)
 	}
 
 	if *upApp {
 		for {
 			v, err := app.UpdateIp()
-			app.Show(" IP upadated: ", v, err)
+			app.Show("IP updated: ", v, err)
 			time.Sleep(time.Duration(*timeUpdate) * time.Hour)
 		}
 	}

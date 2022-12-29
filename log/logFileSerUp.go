@@ -11,7 +11,7 @@ func checkOs() (string, error) {
 	case "windows":
 		return fmt.Sprintf("C:/Users/%v/Documents/dnslab.log", os.Getenv("username")), nil
 	case "linux":
-		return " /var/log/dnslab.log", nil
+		return "/var/log/dnslab.log", nil
 	default:
 		return "./dnslab.log", fmt.Errorf("not found os name ! log save './dnslab.log'")
 	}

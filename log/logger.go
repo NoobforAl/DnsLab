@@ -12,13 +12,12 @@ var (
 )
 
 func init() {
-
-	path, err := logFilePathSelection()
+	p, err := logFilePathSelection()
 	if err != nil {
 		log.Println(err.Error())
 	}
 
-	file, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	file, err := os.OpenFile(p, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -28,5 +27,4 @@ func init() {
 	WarnLog = log.New(file, "Warning: ", format)
 	InfoLog = log.New(file, "Info: ", format)
 	ErrorLog = log.New(file, "Error: ", format)
-
 }

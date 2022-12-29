@@ -2,6 +2,8 @@ package core
 
 import (
 	"fmt"
+
+	log "github.com/NoobforAl/DnsLab/log"
 )
 
 const (
@@ -26,9 +28,9 @@ type BaseConf struct {
 
 func (c *BaseConf) Show(text, v any, err error) {
 	if err != nil {
-		fmt.Println(err.Error())
+		log.ErrorLog.Panicln(err.Error())
 	} else {
-		fmt.Println(text, v)
+		log.InfoLog.Println(text, v)
 	}
 }
 
