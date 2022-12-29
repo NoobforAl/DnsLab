@@ -2,6 +2,7 @@ package log
 
 import (
 	"log"
+	"os"
 )
 
 var (
@@ -11,9 +12,21 @@ var (
 )
 
 func init() {
+
+	path, err := logFilePathSelection()
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	file, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	format := log.Ldate | log.Ltime | log.Lshortfile
 
-	WarnLog = log.New(nil, "Warning: ", format)
-	InfoLog = log.New(nil, "Info: ", format)
-	ErrorLog = log.New(nil, "Error: ", format)
+	WarnLog = log.New(file, "Warning: ", format)
+	InfoLog = log.New(file, "Info: ", format)
+	ErrorLog = log.New(file, "Error: ", format)
+
 }
