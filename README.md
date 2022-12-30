@@ -35,7 +35,7 @@ $ dnslab
 
 در صورتی که تمایلی به نصب Go
 ندارید می توانید باینری فایل را برای خود دانلود کنید.
-[DownloadLink](https://mega.nz/folder/AKcTWJCS#Y5FU8rIEy9ZlBRsyIfpCPA)
+[releases](https://github.com/NoobforAl/DnsLab/releases)
 
 توجه: برای تمامی سیستم عامل ها تعبیه نشده است
 و ممکن است برای برخی از معماری پردازنده ها درست کار نکند.
