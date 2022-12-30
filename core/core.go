@@ -3,7 +3,7 @@ package core
 import (
 	"fmt"
 
-	log "github.com/NoobforAl/DnsLab/log"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -28,9 +28,9 @@ type BaseConf struct {
 
 func (c *BaseConf) Show(text, v any, err error) {
 	if err != nil {
-		log.ErrorLog.Panicln(err.Error())
+		log.Panicln(err.Error())
 	} else {
-		log.InfoLog.Println(text, v)
+		log.Println(text, v)
 	}
 }
 

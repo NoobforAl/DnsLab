@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/NoobforAl/DnsLab/core"
-	log "github.com/NoobforAl/DnsLab/log"
+	log "github.com/sirupsen/logrus"
 )
 
 var app core.BaseConf = core.BaseConf{}
@@ -14,7 +14,7 @@ var app core.BaseConf = core.BaseConf{}
 func init() {
 	if len(os.Args) >= 1 {
 		if err := app.CheckIP(); err != nil {
-			log.WarnLog.Panicln(err.Error())
+			log.Fatal(err.Error())
 		}
 	}
 }
@@ -69,8 +69,8 @@ func main() {
 	}
 
 	if *showIP {
-		log.InfoLog.Println("Ipv4: ", app.Ip)
-		log.InfoLog.Println("Ipv6: ", app.Ipv6)
+		log.Println("Ipv4: ", app.Ip)
+		log.Println("Ipv6: ", app.Ipv6)
 	}
 
 	if *upApp {
