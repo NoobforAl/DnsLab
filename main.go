@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 	"time"
 
@@ -40,32 +41,38 @@ func main() {
 
 	if app.Token != "" {
 		v, err := app.UpdateIp()
-		app.Show("IP updated: ", v, err)
+		app.Show(err, fmt.Sprintf("IP updated: %v", v))
 	}
 
 	if *pingIP {
 		v, err := app.Ping()
-		app.Show("IP is up(PING): ", v, err)
+		app.Show(err,
+			fmt.Sprintf("BufferSize: %d", v.BufferSize),
+			fmt.Sprintf("Ip: %s", v.Ip),
+			fmt.Sprintf("Ttl: %d", v.Ttl),
+			fmt.Sprintf("Time: %d", v.Time),
+			fmt.Sprintf("Success: %v", v.Success),
+		)
 	}
 
 	if *openPort {
 		v, err := app.OpenPort()
-		app.Show("Port is open: ", v, err)
+		app.Show(err, fmt.Sprintf("Port is open: %v", v))
 	}
 
 	if *dnsLookup {
 		v, err := app.DnsLookup()
-		app.Show("Ip: ", v, err)
+		app.Show(err, fmt.Sprintf("Ip: %s", v))
 	}
 
 	if *reverseLookup {
 		v, err := app.ReverseLookup()
-		app.Show("DNS: ", v, err)
+		app.Show(err, fmt.Sprintf("DNS: %s", v))
 	}
 
 	if *updateIP {
 		v, err := app.UpdateIp()
-		app.Show("IP updated: ", v, err)
+		app.Show(err, fmt.Sprintf("IP updated: %v", v))
 	}
 
 	if *showIP {
@@ -76,7 +83,7 @@ func main() {
 	if *upApp {
 		for {
 			v, err := app.UpdateIp()
-			app.Show("IP updated: ", v, err)
+			app.Show(err, fmt.Sprintf("IP updated: %v", v))
 			time.Sleep(time.Duration(*timeUpdate) * time.Hour)
 		}
 	}
