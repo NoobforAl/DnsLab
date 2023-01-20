@@ -61,13 +61,13 @@ func (c *BaseConf) CheckIP() error {
 		return err
 	}
 
-	r, err := decodeBodyJson(res)
-	if err != nil {
+	var data ipInfo
+	if err := decodeBodyJson(res, &data); err != nil {
 		return err
 	}
 
-	c.setUpIp(r.IPv4, r.IPv6, 0)
-	return err
+	c.setUpIp(data.IPv4, data.IPv6, 0)
+	return nil
 }
 
 func (c *BaseConf) Ping() (bool, error) {
