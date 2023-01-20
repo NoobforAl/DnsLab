@@ -15,7 +15,7 @@ const (
 	REVERSELookup string = API + "IP/ReverseLookup?IPAddress=%v"
 	DNSREF        string = API + "DNS/UDIBT?k=%v"
 
-	ENTER_IP  string = "if enter, your ip checked!\nEnter ip or enter: "
+	ENTER_IP  string = "if enter, your ip checked!\nEnter ip or Host: "
 	ENTER_DNS string = "Enter dns: "
 )
 
