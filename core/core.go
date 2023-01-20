@@ -26,11 +26,13 @@ type BaseConf struct {
 	Port  uint16
 }
 
-func (c *BaseConf) Show(text, v any, err error) {
+func (c *BaseConf) Show(err error, texts ...string) {
 	if err != nil {
 		log.Panicln(err.Error())
 	} else {
-		log.Println(text, v)
+		for _, v := range texts {
+			log.Println(v)
+		}
 	}
 }
 
@@ -70,16 +72,22 @@ func (c *BaseConf) CheckIP() error {
 	return nil
 }
 
-func (c *BaseConf) Ping() (bool, error) {
+func (c *BaseConf) Ping() (*ipOrHostPing, error) {
 	defer c.setUpIp(c.Ip, c.Ipv6, 0)
 
 	c.setUpEnterIp(false, ENTER_IP)
 	url := fmt.Sprintf(PING, c.Ip)
 	res, err := request(url)
 	if err != nil {
-		return false, err
+		return nil, err
 	}
-	return boolPars(res)
+
+	var data ipOrHostPing
+	if err := decodeBodyJson(res, &data); err != nil {
+		return nil, err
+	}
+
+	return &data, nil
 }
 
 func (c *BaseConf) OpenPort() (bool, error) {
