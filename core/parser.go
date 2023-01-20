@@ -23,13 +23,10 @@ func boolPars(res *http.Response) (bool, error) {
 	return false, err
 }
 
-func decodeBodyJson(res *http.Response) (*response, error) {
-	r := &response{}
+func decodeBodyJson[T response](res *http.Response, data *T) error {
 	de := json.NewDecoder(res.Body)
-
-	if err := de.Decode(&r); err != nil {
-		return nil, fmt.Errorf("err : %v", err)
+	if err := de.Decode(&data); err != nil {
+		return fmt.Errorf("err : %v", err)
 	}
-
-	return r, nil
+	return nil
 }
