@@ -10,7 +10,7 @@ type ipOrHostPing struct {
 	Ip         string `json:"ip"`
 	Ttl        int    `json:"ttl"`
 	Time       int    `json:"time"`
-	Success    string `json:"success"`
+	Success    bool   `json:"success"`
 }
 
 type response interface {
