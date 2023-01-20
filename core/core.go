@@ -9,7 +9,7 @@ import (
 const (
 	API           string = "https://api.dnslab.ir/"
 	IP            string = API + "IP/"
-	PING          string = API + "IP/IPHavePing?hostOrIPAddress=%v"
+	PING          string = API + "IP/Ping?hostOrIPAddress=%v"
 	OPEN          string = API + "IP/IsIPAndPortOpen?hostOrIPAddress=%v&port=%v"
 	DNSLOOKUP     string = API + "IP/DNSLookup?hostOrIPAddress=%v"
 	REVERSELookup string = API + "IP/ReverseLookup?IPAddress=%v"
