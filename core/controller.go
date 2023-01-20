@@ -1,13 +1,17 @@
 package core
 
-import "fmt"
+import (
+	"fmt"
+
+	log "github.com/sirupsen/logrus"
+)
 
 func getIpPort(getPort bool, text string) (ip string, port uint16) {
-	fmt.Print(text)
+	log.Warn(text)
 	fmt.Scanln(&ip)
 
 	if getPort {
-		fmt.Print("Enter port or enter:")
+		log.Print("Enter port or enter:")
 		fmt.Scanln(&port)
 	}
 	return
