@@ -1,24 +1,5 @@
 package core
 
-import (
-	"fmt"
-
-	log "github.com/sirupsen/logrus"
-)
-
-const (
-	API           string = "https://api.dnslab.ir/"
-	IP            string = API + "IP/"
-	PING          string = API + "IP/Ping?hostOrIPAddress=%v"
-	OPEN          string = API + "IP/IsIPAndPortOpen?hostOrIPAddress=%v&port=%v"
-	DNSLOOKUP     string = API + "IP/DNSLookup?hostOrIPAddress=%v"
-	REVERSELookup string = API + "IP/ReverseLookup?IPAddress=%v"
-	DNSREF        string = API + "DNS/UDIBT?k=%v"
-
-	ENTER_IP  string = "if enter, your ip checked!\nEnter ip or Host: "
-	ENTER_DNS string = "Enter dns: "
-)
-
 type BaseConf struct {
 	Token string
 	Ip    string
@@ -26,113 +7,35 @@ type BaseConf struct {
 	Port  uint16
 }
 
-func (c *BaseConf) Show(err error, texts ...string) {
-	if err != nil {
-		log.Panicln(err.Error())
-	} else {
-		for _, v := range texts {
-			log.Println(v)
-		}
-	}
-}
-
-func (c *BaseConf) setUpIp(IPv4, IPv6 string, port uint16) {
-	c.Ip = IPv4
-	c.Ipv6 = IPv6
-
-	c.Port = port
-	if port == 0 {
-		c.Port = 80
-	}
-}
-
-func (c *BaseConf) setUpEnterIp(getPort bool, text string) {
-	ip, port := getIpPort(getPort, text)
-	if ip != "" {
-		c.Ip = ip
-	}
-
-	if port != 0 {
-		c.Port = port
-	}
-}
-
 func (c *BaseConf) CheckIP() error {
-	res, err := request(IP)
-	if err != nil {
-		return err
-	}
-
-	var data ipInfo
-	if err := decodeBodyJson(res, &data); err != nil {
-		return err
-	}
-
-	c.setUpIp(data.IPv4, data.IPv6, 0)
-	return nil
+	return c.checkIP()
 }
 
 func (c *BaseConf) Ping() (*ipOrHostPing, error) {
 	defer c.setUpIp(c.Ip, c.Ipv6, 0)
-
 	c.setUpEnterIp(false, ENTER_IP)
-	url := fmt.Sprintf(PING, c.Ip)
-	res, err := request(url)
-	if err != nil {
-		return nil, err
-	}
-
-	var data ipOrHostPing
-	if err := decodeBodyJson(res, &data); err != nil {
-		return nil, err
-	}
-
-	return &data, nil
+	return c.ping()
 }
 
 func (c *BaseConf) OpenPort() (bool, error) {
 	defer c.setUpIp(c.Ip, c.Ipv6, 0)
-
 	c.setUpEnterIp(true, ENTER_IP)
-	url := fmt.Sprintf(OPEN, c.Ip, c.Port)
-	res, err := request(url)
-	if err != nil {
-		return false, err
-	}
-	return boolPars(res)
+	return c.openPort()
 }
 
 func (c *BaseConf) DnsLookup() (string, error) {
 	defer c.setUpIp(c.Ip, c.Ipv6, 0)
-
 	c.setUpEnterIp(false, ENTER_DNS)
-	url := fmt.Sprintf(DNSLOOKUP, c.Ip)
-	res, err := request(url)
-	if err != nil {
-		return "", err
-	}
-	return bodyToString(res)
+	return c.dnsLookup()
 }
 
 func (c *BaseConf) ReverseLookup() (string, error) {
 	defer c.setUpIp(c.Ip, c.Ipv6, 0)
-
 	c.setUpEnterIp(false, ENTER_DNS)
-	url := fmt.Sprintf(DNSLOOKUP, c.Ip)
-	res, err := request(url)
-	if err != nil {
-		return "", err
-	}
-	return bodyToString(res)
+	return c.reverseLookup()
 }
 
 func (c *BaseConf) UpdateIp() (bool, error) {
 	defer c.setUpIp(c.Ip, c.Ipv6, 0)
-
-	url := fmt.Sprintf(DNSREF, c.Token)
-	res, err := request(url)
-	if err != nil {
-		return false, err
-	}
-	return boolPars(res)
+	return c.updateIp()
 }
