@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"reflect"
 	"time"
 
 	"github.com/NoobforAl/DnsLab/core"
@@ -61,8 +62,44 @@ func main() {
 	}
 
 	if *dnsLookup {
-		v, err := app.DnsLookup()
-		app.Show(err, fmt.Sprintf("Ip: %s", v))
+		data, err := app.DnsLookup()
+
+		if len(data.Q1) != 0 {
+			for _, v := range data.Q1 {
+				v := reflect.ValueOf(v)
+				for i := 0; i < v.NumField(); i++ {
+					app.Show(err, fmt.Sprintf("%s: %s", v.Type().Field(i).Name, v.Field(i)))
+				}
+			}
+		} else if len(data.Q2) != 0 {
+			for _, v := range data.Q2 {
+				v := reflect.ValueOf(v)
+				for i := 0; i < v.NumField(); i++ {
+					app.Show(err, fmt.Sprintf("%s: %s", v.Type().Field(i).Name, v.Field(i)))
+				}
+			}
+		} else if len(data.Q5) != 0 {
+			for _, v := range data.Q5 {
+				v := reflect.ValueOf(v)
+				for i := 0; i < v.NumField(); i++ {
+					app.Show(err, fmt.Sprintf("%s: %s", v.Type().Field(i).Name, v.Field(i)))
+				}
+			}
+		} else if len(data.Q6) != 0 {
+			for _, v := range data.Q6 {
+				v := reflect.ValueOf(v)
+				for i := 0; i < v.NumField(); i++ {
+					app.Show(err, fmt.Sprintf("%s: %s", v.Type().Field(i).Name, v.Field(i)))
+				}
+			}
+		} else if len(data.Q16) != 0 {
+			for _, v := range data.Q16 {
+				v := reflect.ValueOf(v)
+				for i := 0; i < v.NumField(); i++ {
+					app.Show(err, fmt.Sprintf("%s: %s", v.Type().Field(i).Name, v.Field(i)))
+				}
+			}
+		}
 	}
 
 	if *reverseLookup {
