@@ -23,10 +23,14 @@ func (c *BaseConf) OpenPort() (bool, error) {
 	return c.openPort()
 }
 
-func (c *BaseConf) DnsLookup() (string, error) {
+func (c *BaseConf) DnsLookup() (data qTypes, err error) {
 	defer c.setUpIp(c.Ip, c.Ipv6, 0)
 	c.setUpEnterIp(false, ENTER_DNS)
-	return c.dnsLookup()
+	q, err := getQuery()
+	if err != nil {
+		return
+	}
+	return c.dnsLookup(q)
 }
 
 func (c *BaseConf) ReverseLookup() (string, error) {

@@ -9,8 +9,8 @@ const (
 	IP            string = API + "IP/"
 	PING          string = API + "IP/Ping?hostOrIPAddress=%v"
 	OPEN          string = API + "IP/IsIPAndPortOpen?hostOrIPAddress=%v&port=%v"
-	DNSLOOKUP     string = API + "IP/DNSLookup?hostOrIPAddress=%v"
-	REVERSELookup string = API + "IP/ReverseLookup?IPAddress=%v"
+	DNSLOOKUP     string = API + "DNSLookUp/Query?Query=%v&queryType=%v"
+	REVERSELookup string = API + "DNSLookUp/QueryReverse?IPAddress=%v"
 	DNSREF        string = API + "DNS/UDIBT?k=%v"
 
 	ENTER_IP  string = "if enter, your ip checked!\nEnter ip or Host: "
@@ -56,17 +56,31 @@ func (c *BaseConf) openPort() (bool, error) {
 	return boolPars(res)
 }
 
-func (c *BaseConf) dnsLookup() (string, error) {
-	url := fmt.Sprintf(DNSLOOKUP, c.Ip)
+func (c *BaseConf) dnsLookup(q string) (data qTypes, err error) {
+	url := fmt.Sprintf(DNSLOOKUP, c.Ip, q)
 	res, err := request(url)
 	if err != nil {
-		return "", err
+		return
 	}
-	return bodyToString(res)
+
+	switch q {
+	case "1":
+		return data, decodeBodyJson(res, &data.Q1)
+	case "2":
+		return data, decodeBodyJson(res, &data.Q2)
+	case "5":
+		return data, decodeBodyJson(res, &data.Q5)
+	case "6":
+		return data, decodeBodyJson(res, &data.Q6)
+	case "16":
+		return data, decodeBodyJson(res, &data.Q16)
+	default:
+		return data, fmt.Errorf("not found query")
+	}
 }
 
 func (c *BaseConf) reverseLookup() (string, error) {
-	url := fmt.Sprintf(DNSLOOKUP, c.Ip)
+	url := fmt.Sprintf(REVERSELookup, c.Ip)
 	res, err := request(url)
 	if err != nil {
 		return "", err
