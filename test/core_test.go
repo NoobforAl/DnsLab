@@ -1,25 +1,24 @@
 package core
 
 import (
-	"os"
 	"testing"
+
+	"github.com/NoobforAl/DnsLab/core"
 )
 
-var bc BaseConf
-
-func TestMain(m *testing.M) {
-	bc = BaseConf{
-		Token: "", // your token
-		Ip:    "8.8.8.8",
-		Ipv6:  "",
-		Port:  443,
-	}
-	exitVal := m.Run()
-	os.Exit(exitVal)
+/*
+* setup basic config for testCase
+* creat one token form `dnslab` for test
+ */
+var bc = core.BaseConf[core.Config, []core.DnsLookUpQT1]{
+	Token: "",
+	Ip:    "8.8.8.8",
+	Ipv6:  "",
+	Port:  443,
 }
 
 func TestPing(t *testing.T) {
-	data, err := bc.ping()
+	data, err := bc.Ping()
 	if err != nil {
 		t.Error(err)
 	}
@@ -30,7 +29,7 @@ func TestPing(t *testing.T) {
 }
 
 func TestOpenPort(t *testing.T) {
-	isOpen, err := bc.openPort()
+	isOpen, err := bc.OpenPort()
 	if err != nil {
 		t.Error(err)
 	}
@@ -40,9 +39,10 @@ func TestOpenPort(t *testing.T) {
 	}
 }
 
+// ! this test case only test query type 1
 func TestDnsLookup(t *testing.T) {
 	bc.Ip = "google.com"
-	_, err := bc.dnsLookup("1")
+	_, err := bc.DnsLookup("1")
 
 	if err != nil {
 		t.Error(err)
@@ -50,7 +50,7 @@ func TestDnsLookup(t *testing.T) {
 }
 
 func TestReverseLookup(t *testing.T) {
-	msg, err := bc.reverseLookup()
+	msg, err := bc.ReverseLookup()
 	if err != nil {
 		t.Error(err)
 	}
@@ -60,8 +60,9 @@ func TestReverseLookup(t *testing.T) {
 	}
 }
 
+// ! this test case needed token
 func TestUpdateIp(t *testing.T) {
-	isOK, err := bc.updateIp()
+	isOK, err := bc.UpdateIp()
 	if err != nil {
 		t.Error(err)
 	}
