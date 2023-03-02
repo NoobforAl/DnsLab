@@ -14,14 +14,14 @@ func main() {
 		log.Warn("Background Task Exit (handel keyPut exit!)", err)
 	}
 
-	go handelKeyPut()
+	go handelKeyInput()
 	os.Exit(cmd.Run())
 }
 
 /*
 * Handel ctrl + c keyPut
  */
-func handelKeyPut() {
+func handelKeyInput() {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, syscall.SIGALRM)
 
