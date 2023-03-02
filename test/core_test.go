@@ -10,7 +10,7 @@ import (
 * setup basic config for testCase
 * creat one token form `dnslab` for test
  */
-var bc = core.BaseConf[core.Config, []core.DnsLookUpQT1]{
+var bc = core.BaseConf{
 	Token: "",
 	Ip:    "8.8.8.8",
 	Ipv6:  "",
