@@ -61,20 +61,6 @@ $ dnslab
 
 # Example
 
-دیدن ip با DNS
-
-<div dir="ltr">
-
-```bash
-$ dnslab -dl
-
-Enter dns: developer.google.com
- Ip:  172.217.169.110
-
-```
-
-</div>
-
 آپدیت کردن IP
 
 <div dir="ltr">
