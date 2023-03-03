@@ -24,11 +24,27 @@
 
 <div dir="ltr">
 
-```bash
+```
 $ dnslab
+  -dl string
+        Dns Lookup ues -dl query type
+  -ip
+        See Your Ip
+  -op
+        Open Port Checker
+  -pi
+        Ping your IP
+  -rl
+        Reverse Lookup
+  -t string
+        Set your token use -t your token
+  -ts int
+        time sleep for check ip, default is 3m (default 3)
+  -uip
+        Update your ip with token! use this command with -t <your token>
+  -up
+        every 3m or any time check your ip!
 
- Ipv4:  your ip
- Ipv6:
 ```
 
 </div>
