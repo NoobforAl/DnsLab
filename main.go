@@ -10,10 +10,7 @@ import (
 )
 
 func main() {
-	if err := recover(); err != nil {
-		log.Warn("Background Task Exit (handel keyPut exit!)", err)
-	}
-
+	defer recoverPanic()
 	go handelKeyInput()
 	os.Exit(cmd.Run())
 }
@@ -31,4 +28,14 @@ func handelKeyInput() {
 	log.Println("Exit Program....")
 	log.Println("Good bye!")
 	os.Exit(0)
+}
+
+/*
+* recover panic code
+ */
+func recoverPanic() {
+	if err := recover(); err != nil {
+		log.Warn(err)
+		os.Exit(1)
+	}
 }
