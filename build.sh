@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="v0.5.1"
+VERSION="v0.5.2"
 
 WINDOWS="./build/windows-x86-64bit-$VERSION"
 LINUX="./build/linux-x86-64bit-$VERSION"
