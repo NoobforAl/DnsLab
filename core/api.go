@@ -5,7 +5,7 @@ package core
 * %s setup in program
  */
 const (
-	API           string = "https://api.dnslab.ir/"
+	API           string = "https://api.dnslab.link/"
 	IP            string = API + "IP/"
 	PING          string = API + "IP/Ping?hostOrIPAddress=%s"
 	OPEN          string = API + "IP/IsIPAndPortOpen?hostOrIPAddress=%s&port=%d"
