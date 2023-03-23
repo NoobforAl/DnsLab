@@ -2,7 +2,7 @@
 
 <div dir="rtl">
 
-یک cli برای وب سایت [dnslab](dnslab.ir) به منظور راحتی در دست رسی به api وب سایت.
+یک cli برای وب سایت [dnslab](dnslab.link) به منظور راحتی در دست رسی به api وب سایت.
 
 پروژه اصلی [لینک](https://github.com/AkbarAsghari/DNSLab-WebSite)
 
