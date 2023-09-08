@@ -1,10 +1,12 @@
-package cmd
+package main
 
 import (
 	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
+	"os/signal"
+	"syscall"
 
 	"os"
 	"time"
@@ -184,4 +186,35 @@ func Run() int {
 		dnsLookup, reverseLookup,
 		updateIP, upApp, timeUpdate,
 	)
+}
+
+func main() {
+	defer recoverPanic()
+	go handelKeyInput()
+	os.Exit(Run())
+}
+
+/*
+* Handel ctrl + c keyPut
+ */
+func handelKeyInput() {
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, syscall.SIGALRM)
+
+	// * wait for get data from chanel
+	<-c
+
+	log.Println("Exit Program....")
+	log.Println("Good bye!")
+	os.Exit(0)
+}
+
+/*
+* recover panic code
+ */
+func recoverPanic() {
+	if err := recover(); err != nil {
+		log.Warn(err)
+		os.Exit(1)
+	}
 }
