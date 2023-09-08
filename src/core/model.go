@@ -1,7 +1,8 @@
+// ! wrong: all query type in program not used!
+// ! this for see what's response
 package core
 
 /*
-* use for checkIP() method for check user ip
 * and setup value response to config struct
  */
 type ipInfo struct {
@@ -11,7 +12,6 @@ type ipInfo struct {
 
 /*
 * use for ping your ip or other ip
-* ping() method use this
  */
 type ipOrHostPing struct {
 	BufferSize int    `json:"bufferSize"`
@@ -30,14 +30,12 @@ type response interface {
 }
 
 /*
-! wrong: all query type in program not used!
-! this for see what's response
 * this struct is base info for all query type
 * then we request
 * and model for all query type struct
 * ( DnsLookUpQT1, DnsLookUpQT2,
 *	DnsLookUpQT5, DnsLookUpQT6, DnsLookUpQT16)
-*/
+ */
 type dnsLookUpQT struct {
 	RecordType string `json:"recordType"`
 	DomainName string `json:"domainName"`
