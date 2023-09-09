@@ -11,11 +11,15 @@ import (
 )
 
 // * read Response Body and convert to string
-func (_ BaseConf) bodyToString(res *http.Response) (string, error) {
+func (c BaseConf) bodyToString(res *http.Response) (string, error) {
+	c.log.Debug("response to string")
+
 	b, err := io.ReadAll(res.Body)
 	if err != nil {
 		return "", errors.Join(DECODE_ERR, err)
 	}
+
+	c.log.Debug(b)
 	return string(b), nil
 }
 
@@ -24,8 +28,9 @@ func (_ BaseConf) bodyToString(res *http.Response) (string, error) {
 * list all struct in core/models.go
  */
 func (c BaseConf) decodeBodyJson(res *http.Response, data *map[string]any) error {
-	de := json.NewDecoder(res.Body)
+	c.log.Debug("decode json body to map")
 
+	de := json.NewDecoder(res.Body)
 	defer res.Body.Close()
 
 	if err := de.Decode(&data); err != nil {
@@ -45,6 +50,8 @@ func (c BaseConf) decodeBodyJson(res *http.Response, data *map[string]any) error
 func (c BaseConf) request(url string) (*http.Response, error) {
 	var res *http.Response
 	var err error
+
+	c.log.Debugf("request to url: %s", url)
 
 	err = retry.Do(func() error {
 		res, err = http.Get(url)
