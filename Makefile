@@ -1,6 +1,6 @@
 GO := go
 PROGRAM_FLAGS := -d
-PATH_FILE := src/cmd/cmd.go
+PATH_FILE := src/cmd/main.go
 EXIT_BINERY := ./dnslab
 
 run:
