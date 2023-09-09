@@ -45,7 +45,7 @@ func (c *BaseConf) CheckIP() (map[string]any, error) {
 	}
 
 	data := make(map[string]any)
-	if err := c.decodeBodyJson(res, &data); err != nil {
+	if err := c.decodeBodyJson(res, &data, nil); err != nil {
 		return nil, err
 	}
 
@@ -63,7 +63,7 @@ func (c *BaseConf) Ping(ipOrHost string) (map[string]any, error) {
 	}
 
 	data := make(map[string]any)
-	if err := c.decodeBodyJson(res, &data); err != nil {
+	if err := c.decodeBodyJson(res, &data, nil); err != nil {
 		return nil, err
 	}
 
@@ -87,19 +87,19 @@ func (c BaseConf) OpenPort(ipOrHost string, prot uint16) (bool, error) {
 * get response with out pars data with
 * response models type query!
  */
-func (c BaseConf) DnsLookup(ipOrHost, q string) (map[string]any, error) {
+func (c BaseConf) DnsLookup(ipOrHost, q string) ([]map[string]any, error) {
 	url := fmt.Sprintf(DNS_LOOKUP, ipOrHost, q)
 	res, err := c.request(url)
 	if err != nil {
 		return nil, err
 	}
 
-	data := make(map[string]any)
-	if err := c.decodeBodyJson(res, &data); err != nil {
+	datas := make([]map[string]any, 1)
+	if err := c.decodeBodyJson(res, nil, &datas); err != nil {
 		return nil, err
 	}
 
-	return data, nil
+	return datas, nil
 }
 
 /*

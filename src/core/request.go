@@ -27,17 +27,28 @@ func (c BaseConf) bodyToString(res *http.Response) (string, error) {
 * decode response json with some struct
 * list all struct in core/models.go
  */
-func (c BaseConf) decodeBodyJson(res *http.Response, data *map[string]any) error {
+func (c BaseConf) decodeBodyJson(
+	res *http.Response,
+	data *map[string]any,
+	datas *[]map[string]any,
+) error {
 	c.log.Debug("decode json body to map")
 
 	de := json.NewDecoder(res.Body)
+	var err error
+
 	defer res.Body.Close()
 
-	if err := de.Decode(&data); err != nil {
+	if data == nil {
+		err = de.Decode(&datas)
+	} else {
+		err = de.Decode(&data)
+	}
+
+	if err != nil {
 		text, _ := c.bodyToString(res)
 		err = fmt.Errorf("%s, body: %s", err.Error(), text)
 		return errors.Join(DECODE_ERR, err)
-
 	}
 	return nil
 }
