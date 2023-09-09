@@ -2,50 +2,37 @@ package core
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
+
+	retry "github.com/avast/retry-go"
 )
 
 // * read Response Body and convert to string
-func bodyToString(res *http.Response) (string, error) {
+func (_ BaseConf) bodyToString(res *http.Response) (string, error) {
 	b, err := io.ReadAll(res.Body)
 	if err != nil {
-		return "", fmt.Errorf("err :  %v", err)
+		return "", errors.Join(DECODE_ERR, err)
 	}
 	return string(b), nil
-}
-
-/*
-* check response body is bool or not
-* first parse with bodyToString()
-* secund check is equal to true or not
-* if value not "true" return false
-* this func only use for some request then not response json
-* ex: openPort() method use this func
- */
-func boolPars(res *http.Response) (bool, error) {
-	b, err := bodyToString(res)
-
-	defer res.Body.Close()
-
-	if b == "true" {
-		return true, err
-	}
-	return false, err
 }
 
 /*
 * decode response json with some struct
 * list all struct in core/models.go
  */
-func decodeBodyJson[T response](res *http.Response, data *T) error {
+func (c BaseConf) decodeBodyJson(res *http.Response, data *map[string]any) error {
 	de := json.NewDecoder(res.Body)
 
 	defer res.Body.Close()
 
 	if err := de.Decode(&data); err != nil {
-		return fmt.Errorf("err : %v", err)
+		text, _ := c.bodyToString(res)
+		err = fmt.Errorf("%s, body: %s", err.Error(), text)
+		return errors.Join(DECODE_ERR, err)
+
 	}
 	return nil
 }
@@ -55,17 +42,25 @@ func decodeBodyJson[T response](res *http.Response, data *T) error {
 * if not get error or not get bad status code ( only 200 is ok! )
 * return response
  */
-func request(url string) (*http.Response, error) {
-	res, err := http.Get(url)
-	if err != nil {
-		return nil, fmt.Errorf("can't connect to api")
-	}
+func (c BaseConf) request(url string) (*http.Response, error) {
+	var res *http.Response
+	var err error
 
-	if res.StatusCode != 200 {
-		text, _ := bodyToString(res)
-		res.Body.Close()
-		return nil, fmt.Errorf("err : server response with this StatusCode %d\nresponse value:%s",
-			res.StatusCode, text)
-	}
-	return res, nil
+	err = retry.Do(func() error {
+		res, err = http.Get(url)
+		if err != nil {
+			return CONNECTION_ERR
+		}
+
+		if res.StatusCode != 200 {
+			text, _ := c.bodyToString(res)
+			defer res.Body.Close()
+
+			err = fmt.Errorf("StatusCode %d\nbody: %s", res.StatusCode, text)
+			return errors.Join(REQUEST_ERR, err)
+		}
+		return nil
+	}, retry.Delay(c.retryTime), retry.Attempts(c.retryCount))
+
+	return res, err
 }
