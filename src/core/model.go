@@ -1,3 +1,5 @@
+//go:build ignore
+
 // ! wrong: all query type in program not used!
 // ! this for see what's response
 package core
