@@ -1,56 +1,78 @@
 package core
 
 import (
+	"fmt"
+	"os"
 	"testing"
+	"time"
 
-	"github.com/NoobforAl/DnsLab/core"
+	"github.com/NoobforAl/DnsLab/src/contract"
+	"github.com/NoobforAl/DnsLab/src/core"
+	"github.com/kr/pretty"
+	"github.com/sirupsen/logrus"
 )
 
-/*
-* setup basic config for testCase
-* creat one token form `dnslab` for test
- */
-var bc = core.BaseConf{
-	Token: "",
-	Ip:    "8.8.8.8",
-	Ipv6:  "",
-	Port:  443,
+const (
+	example1 = "example.com"
+	example2 = "8.8.8.8"
+)
+
+var bc contract.DnslabAPi
+
+func TestMain(m *testing.M) {
+	// setup token
+	// export token_app="token"
+
+	bc = core.New(
+		os.Getenv("token_app"),
+		logrus.New(),
+		time.Second, 2)
+	os.Exit(m.Run())
 }
 
-func TestPing(t *testing.T) {
-	data, err := bc.Ping()
+func TestCheckIp(t *testing.T) {
+	data, err := bc.CheckIP()
 	if err != nil {
 		t.Error(err)
 	}
 
-	if !data.Success {
-		t.Error("Can't Ping 8.8.8.8!")
+	t.Logf("%# v", pretty.Formatter(data))
+}
+
+func TestPing(t *testing.T) {
+	data, err := bc.Ping(example1)
+	if err != nil {
+		t.Error(err)
 	}
+
+	fmt.Printf("%# v", pretty.Formatter(data))
 }
 
 func TestOpenPort(t *testing.T) {
-	isOpen, err := bc.OpenPort()
+	isOpen, err := bc.OpenPort(example2, 53)
 	if err != nil {
 		t.Error(err)
 	}
 
 	if !isOpen {
-		t.Error("8.8.8.8 port 80 not open!")
+		t.Error("8.8.8.8 port 53 is open!")
 	}
 }
 
-// ! this test case only test query type 1
 func TestDnsLookup(t *testing.T) {
-	bc.Ip = "google.com"
-	_, err := bc.DnsLookup("1")
+	querys := []string{"1", "2", "5", "6", "16"}
+	for _, v := range querys {
+		data, err := bc.DnsLookup(example1, v)
+		if err != nil {
+			t.Error(err)
+		}
 
-	if err != nil {
-		t.Error(err)
+		fmt.Printf("%# v", pretty.Formatter(data))
 	}
 }
 
 func TestReverseLookup(t *testing.T) {
-	msg, err := bc.ReverseLookup()
+	msg, err := bc.ReverseLookup(example2)
 	if err != nil {
 		t.Error(err)
 	}
@@ -60,14 +82,13 @@ func TestReverseLookup(t *testing.T) {
 	}
 }
 
-// ! this test case needed token
 func TestUpdateIp(t *testing.T) {
 	isOK, err := bc.UpdateIp()
 	if err != nil {
 		t.Error(err)
 	}
 
-	if isOK {
+	if !isOK {
 		t.Error("ip not updated check token!")
 	}
 }
