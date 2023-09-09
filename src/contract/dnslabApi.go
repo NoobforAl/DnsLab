@@ -7,5 +7,5 @@ type DnslabAPi interface {
 
 	ReverseLookup(ip string) (string, error)
 	OpenPort(ipOrHost string, prot uint16) (bool, error)
-	DnsLookup(ipOrHost, q string) (map[string]any, error)
+	DnsLookup(ipOrHost, q string) ([]map[string]any, error)
 }
